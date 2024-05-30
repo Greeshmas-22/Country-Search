@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div style="background-image: url(https://png.pngtree.com/background/20210716/original/pngtree-sprinkle-the-festival-color-splash-water-colorful-pigment-smoke-background-picture-image_1346862.jpg); width: 100%; height: 150vh; background-repeat: no-repeat; background-size: cover; overflow-y: hidden; " >
+       
+        <h1 class="head fs-2 mt-5 d-flex align-items-center justify-content-center" style="color: white;">Know about the country</h1>
+        <div class="row w-100">
+            <div class="col-md-4"></div>
+            <div class="col-md-8 mt-4">
+                <div class="d-flex justify-content-center align-items-center w-75">
+                    <input id="country" type="text" class="form-control" placeholder="enter the country name">
+                    <button onclick="search()" class="btn btn-outline-light ms-3">Search</button>
+                </div>
+                <div id="result" class="mt-5 w-100" >
+                  
+              
+                
+            </div>
+            <div class="col-md-2"></div>
+            
+        </div>
+       
+    </div>
+  
+    
+</body>
+<script>
+ search = async() =>{
+ let countryName = country.value
+// console.log(countryName);
+if(countryName){
+  const  response =  await fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
+  //console.log(response);
+  response.json().then((data)=>{ //remove unnecessary data json used
+    console.log(data[0]);
+    //common name
+    let cname = data[0].name.common
+    console.log(cname);
+    
+    //official name
+    let official = data[0].name.official
+    console.log(official); 
+
+    //capital
+    let capital = data[0].capital
+    console.log(capital);
+
+    //borders
+    let borders = data[0].borders
+    console.log(borders);
+
+    //area
+    let area = data[0].area
+    console.log(area);
+
+    //map
+    let maps = data[0].maps.googleMaps
+    console.log(maps);
+
+    //population
+    let population = data[0].population
+    console.log(population);
+
+    //timezone
+
+    let timezones = data[0].timezones
+    console.log(timezones);
+
+    //continent
+    let continents = data[0].continents
+    console.log(continents);
+
+    //flag
+    let flags = data[0].flags.png
+    console.log(flags);
+
+    //languages - different keys for diff countries
+    national_language=[]
+    for (let lang in data[0].languages){
+        national_language.push(data[0].languages[lang])
+    } 
+    console.log(national_language);
+
+    //currency
+    for(let currency in data[0].currencies){
+        var currencyName = data[0].currencies[currency].name
+        var currencySymbol = data[0].currencies[currency].symbol
+
+    }
+    console.log(currencyName, currencySymbol);
+
+    result.innerHTML = `  <div class="card mb-3 " style="max-width: 700px; background-color: lightblue;">
+                        <div class="row w-100 p-4">
+                          <div class="col-md-4">
+                            <img src=${flags} class="img-fluid rounded-start" alt="flag" >
+                            <h3 class="fw-bolder mt-4 ms-2 text-center "  >${official}</h3>
+                            <div class="card mt-3" style="width: 100%;">
+                                 <ul class="list-group list-group-flush">
+                               
+                               <li class="list-group-item" >common name:${cname}</li>
+                               <li class="list-group-item" >capital:${capital}</li>
+                                </ul>
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="card " style="width: 100%;">
+                                    <ul class="list-group list-group-flush">
+                                   <li class="list-group-item" >borders:${borders}</li>
+                                   <li class="list-group-item" >continents:${continents}</li>
+                                   <li class="list-group-item" >population:${population}</li>
+                                   <li class="list-group-item" >timezone:${timezones}</li>
+                                   <li class="list-group-item" >currency:${currencyName,currencySymbol}</li>
+                                   <li class="list-group-item" >maps:${maps}</li>
+                                   <li class="list-group-item" >area:${area}</li>
+                                   <li class="list-group-item" >national language:${national_language}</li>
+                                    </ul> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                     </div>`
+
+
+  })
+}
+else{
+    alert('enter a valid input')
+}
+}
+</script>
+</html>
